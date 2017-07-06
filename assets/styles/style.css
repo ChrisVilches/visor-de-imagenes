@@ -1,22 +1,7 @@
-.chat-msgs{
-	height: 200px;
-	overflow: auto;
-	overflow-y: scroll;
-	border: 1px solid #aaaaaa;
-	padding: 10px;
-	margin: 10px 0;
-
+.folder-name {
+	padding-left: 10px;
 }
 
-.chat-msgs-individual{
-
-	border: 0;
-	border-top: 1px solid #aaaaaa;
-	padding-top: 10px;
-	border-style: dashed;
-}
-
-.chat-msgs-individual small{
-
-	color: #999999;
+.glyphicon-folder-open{
+	color: #ffbb33;
 }

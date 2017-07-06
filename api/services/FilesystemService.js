@@ -23,8 +23,16 @@ module.exports = {
   * "file" must be a file and not a directory
   */
   getFileBreadcrumb: function(options) {
+
     var dir = options.file.slice(0, options.file.lastIndexOf("/") + 1);
-    return dir.split("/").filter(e => e.length > 0)
+    var ret = dir.split("/").filter(e => e.length > 0);
+
+    if(options.omitFirst){
+      var split = options.omitFirst.split("/").filter(e => e.length > 0);
+      ret = ret.splice(split.length);
+    }
+
+    return ret;
   }
 
 

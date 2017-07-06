@@ -7,13 +7,21 @@
 
 var fs = require('fs');
 var path = require('path');
-
+var mime = require('mime');
 
 module.exports = {
 
 	files: function(req, res){
 
-		Manga.findOne({ id: req.param('id') }, function(err, record){
+		var query = {};
+
+		if(req.query.hasOwnProperty('name')){
+			query = { name: req.param('id') };
+		} else {
+			query = { id: req.param('id') };
+		}
+
+		Manga.findOne(query, function(err, record){
 
 			if(err) { return res.serverError(err); }
 			if(record == null) { return res.notFound(); }
@@ -24,19 +32,26 @@ module.exports = {
 
 				if(err) { return res.serverError(err); }
 
+				var fileType = 'directory';
+
 				// Return a JSON that shows directories and files
-				if(inodeStatus.isDirectory()){
+				if(inodeStatus.isDirectory() || req.query.hasOwnProperty('onlymetadata')){
 					try{
 						var dirs = FilesystemService.getDirectories({ path: fullPath });
 						var files = FilesystemService.getFiles({ path: fullPath });
 					} catch(e){
-						console.log(e);
-						return res.notFound("Can't get files");
+						if(!req.query.hasOwnProperty('onlymetadata')){
+							console.log(e);
+							return res.notFound("Can't get files");
+						}
+						fileType = mime.lookup(fullPath);
 					}
 					return res.ok({
 						manga: record,
 						dirs: dirs,
-						files: files
+						files: files,
+						breadcrumb: FilesystemService.getFileBreadcrumb({ file: fullPath, omitFirst: record.path }),
+						fileType: fileType
 					});
 				}
 
