@@ -32,26 +32,19 @@ module.exports = {
 
 				if(err) { return res.serverError(err); }
 
-				var fileType = 'directory';
-
 				// Return a JSON that shows directories and files
-				if(inodeStatus.isDirectory() || req.query.hasOwnProperty('onlymetadata')){
+				if(inodeStatus.isDirectory()){
 					try{
 						var dirs = FilesystemService.getDirectories({ path: fullPath });
 						var files = FilesystemService.getFiles({ path: fullPath });
 					} catch(e){
-						if(!req.query.hasOwnProperty('onlymetadata')){
-							console.log(e);
-							return res.notFound("Can't get files");
-						}
-						fileType = mime.lookup(fullPath);
+						return res.notFound("Can't get files");
 					}
 					return res.ok({
 						manga: record,
 						dirs: dirs,
 						files: files,
-						breadcrumb: FilesystemService.getFileBreadcrumb({ file: fullPath, omitFirst: record.path }),
-						fileType: fileType
+						breadcrumb: FilesystemService.getFileBreadcrumb({ file: fullPath, omitFirst: record.path })
 					});
 				}
 

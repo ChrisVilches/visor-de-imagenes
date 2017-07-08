@@ -26,7 +26,7 @@ class Layout extends React.Component {
     render() {
         return(
 				<div>
-					<h2>漫画</h2>
+					<h2>manga</h2>
 					<div>
 						<div className="row">
 							<div className="col-md-6">

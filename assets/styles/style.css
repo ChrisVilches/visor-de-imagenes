@@ -1,7 +1,45 @@
+body {
+	background-color: black;
+}
+
+a {
+	color: #cacaca;
+}
+
+a:hover, a:active, a:focus, a:hover > div {
+	color: #fafafa;
+	text-decoration: none;
+	background-color: #121212;
+}
+
 .folder-name {
 	padding-left: 10px;
 }
 
 .glyphicon-folder-open{
-	color: #ffbb33;
+	color: #cacaca;
+}
+
+.dir-file{
+	padding: 2px 1px;
+}
+
+.breadcrumb-item{
+	margin: 0 2px;
+	padding: 0 2px;
+}
+
+.current-file{
+	background-color:#121212;
+}
+.image-show{
+	display: block;
+}
+
+.breadcrumb a{
+
+}
+
+.file-name{
+	font-weight: bold;
 }
