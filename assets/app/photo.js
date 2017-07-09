@@ -33,7 +33,17 @@ export default class Photo extends React.Component {
 
   }
 
+
+
 	render() {
+
+    var style = {};
+    if(this.state.filePath == ''){
+      style = {
+        display: 'none'
+      };
+    }
+
 		return (
       <div>
         <Breadcrumb 
@@ -41,9 +51,11 @@ export default class Photo extends React.Component {
         currentDir={ this.state.currentDir }
         file={ this.state.fileName }></Breadcrumb>
 
-        <img id="manga-image" src={ 
-          window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' 
-        }></img>
+        <img 
+        id="manga-image" 
+        src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' }
+        style={ style }
+        ></img>
 
       </div>
     );    
