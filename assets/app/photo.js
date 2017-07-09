@@ -21,10 +21,6 @@ export default class Photo extends React.Component {
     if(typeof props.filePath !== 'string') return;
     if(props.filePath.trim().length == 0) return;
 
-    // eliminar estos asserts porque no son universales
-    console.assert(props.filePath.search('manga') == -1);
-    console.assert(props.filePath.search('spa') == -1);
-
     this.setState({
       filePath: Url.removeLast(props.filePath),      
       fileName: Url.getFileName(props.filePath),
