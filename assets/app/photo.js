@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Breadcrumb from './breadcrumb';
 import Path from 'path';
 import Url from './url';
+import PropTypes from 'prop-types';
 
 export default class Photo extends React.Component {
 
@@ -36,7 +37,7 @@ export default class Photo extends React.Component {
 		return (
       <div>
         <Breadcrumb 
-        url={ this.state.filePath } 
+        path={ this.state.filePath } 
         currentDir={ this.state.currentDir }
         file={ this.state.fileName }></Breadcrumb>
 
@@ -48,3 +49,12 @@ export default class Photo extends React.Component {
     );    
 	}
 }
+
+
+Photo.propTypes = {
+  filePath: PropTypes.string.isRequired
+};
+
+
+
+

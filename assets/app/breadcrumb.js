@@ -2,6 +2,8 @@ import React from 'react';
 import Path from 'path';
 import { Link } from 'react-router-dom';
 import Url from './url';
+import PropTypes from 'prop-types';
+
 
 export default class Breadcrumb extends React.Component {
 
@@ -15,8 +17,8 @@ export default class Breadcrumb extends React.Component {
 
   update(props){
 
-    // props.url ----> manga_name/path/to/dir (never a file)
-    var dirs = props.url.split('/').filter(e => e.length > 0);
+    // props.path = manga_name/path/to/dir (never a file)
+    var dirs = props.path.split('/').filter(e => e.length > 0);
 
     var bread = [];
     var full = "/";
@@ -65,3 +67,10 @@ export default class Breadcrumb extends React.Component {
     );
   }
 }
+
+Breadcrumb.propTypes = {
+  path: PropTypes.string.isRequired,
+  currentDir: PropTypes.string.isRequired,
+  file: PropTypes.string
+};
+

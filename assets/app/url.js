@@ -45,7 +45,7 @@ export default class Url {
 console.assert(Url.host == 'localhost:1337');
 console.assert(Url.spaUrl == '/spa');
 console.assert(Url.mangaSpaUrl == '/spa/manga');
-console.assert(Path.join(Url.mangaSpaUrl, 'manguita') == '/spa/manga/manguita');
+console.assert(Path.join(Url.mangaSpaUrl, 'naruto') == '/spa/manga/naruto');
 
 console.assert(Url.getFileName('/aa/bb/cc') == 'cc');
 console.assert(Url.getFileName('/aa/bb/cc/dd') == 'dd');

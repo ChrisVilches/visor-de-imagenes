@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import Path from 'path';
 import Breadcrumb from './breadcrumb';
 import Url from './url';
+import PropTypes from 'prop-types';
 
 
-export default class Manga extends React.Component {
+export default class Browser extends React.Component {
 
   constructor(props){
     super(props);
@@ -21,7 +22,7 @@ export default class Manga extends React.Component {
   }
 
   componentDidMount(){
-    this.update();
+    this.update(this.props);
   }
 
   componentWillReceiveProps(props){
@@ -31,39 +32,29 @@ export default class Manga extends React.Component {
 
   update(props){
 
-    // refactorizar este codigo,
-    // hacer que solo haga el AJAX si cambia el directorio
-    // pero las otras cosas las puede hacer (como marcar
-    // el archivo actual, etc)
-
-    if(!props)
-      props = this.props;
 
     this.setState({
       currentPhoto: props.currentPhoto
     });
 
-    var previousCurrentDir = this.state.currentDir;
-
     var currentDir = Url.mangaUrlClean(props.location.pathname);
 
-
-    if(previousCurrentDir == currentDir){
-      return;
+    if(this.state.currentDir == currentDir){
+      return; // Browser path didn't change
     }
 
     $.ajax({
       url: window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, currentDir),
       data: {
-        name: true,
-        onlymetadata: true
+        name: true // Search by name, not id
       }
     }).done(function(data){
 
       var mangaName = data.manga.name;
 
       if(mangaName != this.state.mangaName){
-        this.props.setImage(Path.join(mangaName, data.manga.lastPage));
+        // Show last image
+        this.props.setImage(Path.join('/', mangaName, data.manga.lastPage));
       }
 
       this.setState({
@@ -84,15 +75,12 @@ export default class Manga extends React.Component {
 		return(
       <div>
 
-        <h1>{ this.state.mangaName }</h1>
-
-          
+        <h1>{ this.state.mangaName }</h1>          
 
         {/* Current directory breadcrumb */}
-        <Breadcrumb url={ this.state.currentDir } currentDir={ this.state.currentDir } ></Breadcrumb>
+        <Breadcrumb path={ this.state.currentDir } currentDir={ this.state.currentDir } ></Breadcrumb>
 
         {/* Directories */}
-
           <div className="col-md-3">
           {this.state.dirs.map(function(m, i){
             return (
@@ -119,5 +107,11 @@ export default class Manga extends React.Component {
       </div>
 		);
 	}
-
 }
+
+Browser.propTypes = {
+  currentPhoto: PropTypes.string.isRequired,
+  setImage: PropTypes.func.isRequired
+};
+
+
