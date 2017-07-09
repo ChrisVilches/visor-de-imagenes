@@ -4,6 +4,7 @@ import Breadcrumb from './breadcrumb';
 import Path from 'path';
 import Url from './url';
 import PropTypes from 'prop-types';
+import Zooming from 'zooming';
 
 export default class Photo extends React.Component {
 
@@ -13,7 +14,17 @@ export default class Photo extends React.Component {
       filePath: "",
       fileName: "",
       currentDir: ""
-    };
+    };   
+
+  }
+
+  componentDidMount(){
+    const zooming = new Zooming({
+      bgColor: '#000'
+    });
+
+    const img = document.getElementById('manga-image');
+    zooming.listen(img);
   }
 
   componentWillReceiveProps(props){
@@ -51,6 +62,7 @@ export default class Photo extends React.Component {
         id="manga-image" 
         src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' }
         style={ style }
+        className="img-responsive"
         ></img>
 
       </div>

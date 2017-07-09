@@ -31,25 +31,29 @@ class Layout extends React.Component {
 
         return (
 				<div>
-					<h2>manga</h2>
-
 					<div className="row">
-						<div className="col-md-3">
+
+						<div className="col-md-4">
+
+							<h2>manga</h2>
 							<MangaList/>
 							<Add/>
 							<Route 
 								path={ Path.join(Url.mangaSpaUrl, ':name') }
 								render={(props) => <Browser 
-									currentPhoto={ this.state.filePathPhoto } 
-									setImage={ this.setImage } 
-									{...props} />} 
+								currentPhoto={ this.state.filePathPhoto } 
+								setImage={ this.setImage } 
+								{...props} />} 
 							/>
 
-						</div>
-						
-						<div className="col-md-9">
+						</div>   
+
+						<div className="col-md-8">
+
 							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+
 						</div>
+
 					</div>
 				</div>
         );
