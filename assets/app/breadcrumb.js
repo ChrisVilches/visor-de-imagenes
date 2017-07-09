@@ -14,12 +14,13 @@ export default class Breadcrumb extends React.Component {
 
   update(props){
 
-    var dirs = props.url.split('/').splice(1);
+    var dirs = props.url.split('/').filter(e => e.length > 0).splice(1);
 
     var bread = [];
     var full = "";
     for(var i=0; i<dirs.length; i++){
       full = Path.join(full, dirs[i]);
+
       bread.push({
         name: dirs[i],
         acum: full,
@@ -47,9 +48,9 @@ export default class Breadcrumb extends React.Component {
         {this.state.breads.map(function(m, i){
           if(m.active)
             return <span key={ i }><span className="breadcrumb-item">{ m.name }</span>/</span>;
-          else return(
-            <span>
-              <Link to={ Path.join('/spa/manga', m.acum) } key={ i } className="breadcrumb-item">
+          return(
+            <span key={ i }>
+              <Link to={ Path.join('/spa/manga', m.acum) } className="breadcrumb-item">
                 <span>{ m.name }</span>
               </Link>/
             </span>

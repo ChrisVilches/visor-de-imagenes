@@ -16,12 +16,8 @@ export default class Manga extends React.Component {
       files: [],
       currentDirBreadcrumb: "",
       currentDir: "",
-      currentFileDir: "",
-      currentFileName: "",
-      currentFileBreadcrumb: []
+      currentPhoto: ""
     };
-
-
   }
 
   componentDidMount(){
@@ -32,40 +28,20 @@ export default class Manga extends React.Component {
     this.update(props);
   }
 
-  setImage(fileName, wholeUrl){
-
-    var currentFileDir;
-    var _fileName;
-    var url;
-
-    if(!wholeUrl){
-      currentFileDir = this.props.location.pathname.substr(this.props.location.pathname.search('manga/'));
-      url = Path.join(currentFileDir, fileName);
-      _fileName = fileName;
-    } else {
-      currentFileDir = fileName.split('/');
-      currentFileDir = currentFileDir.splice(0, currentFileDir.length - 1);
-      currentFileDir = currentFileDir.join('/');
-      currentFileDir = Path.join('manga', currentFileDir)
-      url = Path.join('manga', fileName);
-      _fileName = fileName.split('/');
-      _fileName = _fileName[_fileName.length - 1];
-    }
-
-
-    this.setState({
-      currentFileName: _fileName,
-      currentFileDir: currentFileDir,
-      currentFileBreadcrumb: currentFileDir
-    }, function(){
-      $("#manga-image").attr("src", window.location.protocol + "//" + Path.join(window.location.host, url) + '?name');
-    });
-  }
 
   update(props){
 
+    // refactorizar este codigo,
+    // hacer que solo haga el AJAX si cambia el directorio
+    // pero las otras cosas las puede hacer (como marcar
+    // el archivo actual, etc)
+
     if(!props)
       props = this.props;
+
+    this.setState({
+      currentPhoto: props.currentPhoto
+    });
 
     var previousCurrentDir = this.state.currentDir;
 
@@ -87,7 +63,7 @@ export default class Manga extends React.Component {
       var mangaName = data.manga.name;
 
       if(mangaName != this.state.name){
-        this.setImage(Path.join(mangaName, data.manga.lastPage), true);
+        this.props.setImage(Path.join('manga', mangaName, data.manga.lastPage));
       }
 
       this.setState({
@@ -103,15 +79,18 @@ export default class Manga extends React.Component {
     });
   }
 
+  
+
 	render() {
 		return(
       <div>
 
         <h1>{ this.state.name }</h1>
 
-        {/* Current directory breadcrumb */}
-        <Breadcrumb url={ this.state.currentDirBreadcrumb } currentDir={ this.state.currentDir.replace('manga/', '') }></Breadcrumb>
+          
 
+        {/* Current directory breadcrumb */}
+        <Breadcrumb url={ this.state.currentDirBreadcrumb } currentDir={ this.state.currentDir.replace('manga/', '') } ></Breadcrumb>
 
         {/* Directories */}
 
@@ -127,8 +106,8 @@ export default class Manga extends React.Component {
         {/* Files */}
           {this.state.files.map(function(m, i){
             return (
-            <a href="javascript:;" key={ i } onClick={ this.setImage.bind(this, m, null) }>
-              <div className={ this.state.currentFileName == m && this.state.currentFileDir == this.state.currentDir? 'dir-file current-file' : 'dir-file' }>
+            <a href="javascript:;" key={ i } onClick={ () => this.props.setImage(Path.join(this.state.currentDir, m)) }>
+              <div className={ this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'dir-file current-file' : 'dir-file' }>
                 <i className="glyphicon glyphicon-file"></i>
                 <span className="folder-name">{ m }</span>
               </div>
@@ -136,18 +115,6 @@ export default class Manga extends React.Component {
             )
           }.bind(this))}
           </div>
-
-
-          <div className="col-md-9 image-show">
-            {/* Current file breadcrumb */}
-            <Breadcrumb file={ this.state.currentFileName } url={ this.state.currentFileDir } currentDir={ this.state.currentDir.replace('manga/', '') }></Breadcrumb>
-            <img id="manga-image"></img>
-          </div>
-
-
-
-
-
 
 
       </div>

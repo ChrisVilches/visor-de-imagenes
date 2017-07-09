@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 
 import $ from 'jquery';
-import Manga from './manga';
+import Browser from './browser';
 import Add from './add';
+import Photo from './photo';
 
 class Layout extends React.Component {
 
 	constructor(props){
 		super(props);
 		this.state = {
-			mangas: []
+			mangas: [],
+			filePathPhoto: ""
 		};
 
 		$.ajax({ url: '/manga' })
@@ -21,15 +23,23 @@ class Layout extends React.Component {
 		.catch(function(err){
 			console.log(err);
 		});
+		this.setImage = this.setImage.bind(this);
+	}
+
+	setImage(filePath){
+		this.setState({
+			filePathPhoto: filePath
+		});
 	}
 
     render() {
+
         return(
 				<div>
 					<h2>manga</h2>
-					<div>
+
 						<div className="row">
-							<div className="col-md-6">
+							<div className="col-md-3">
 								{this.state.mangas.map(function(m){
 									return (
 									<Link to={ "/spa/manga/" + m.name } key={m.id}>
@@ -37,15 +47,24 @@ class Layout extends React.Component {
 									</Link>
 									)
 								})}
+								<Add/>
+								<Route 
+									path="/spa/manga/:name" 
+									render={(props) => <Browser 
+										currentPhoto={ this.state.filePathPhoto } 
+										setImage={ this.setImage } 
+										{...props} />} 
+								/>
+
 							</div>
+							
+							<div className="col-md-9">
+								<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+							</div>
+
+
 						</div>
-						<div className="row">
-							<Switch>
-								<Route exact path="/spa" component={ Add }/>
-								<Route path="/spa/manga/:name" component={ Manga }/>
-							</Switch>
-						</div>
-					</div>
+
 				</div>
         );
     }
