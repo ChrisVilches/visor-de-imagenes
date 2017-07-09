@@ -8,23 +8,16 @@ import Add from './add';
 import Photo from './photo';
 import Url from './url';
 import Path from 'path';
+import MangaList from './mangalist';
 
 class Layout extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.state = {
-			mangas: [],
+		this.state = {			
 			filePathPhoto: ""
 		};
-
-		$.ajax({ url: Url.mangaServiceUrl })
-		.done(function(data){
-			this.setState({ mangas: data });
-		}.bind(this))
-		.catch(function(err){
-			console.log(err);
-		});
+		
 		this.setImage = this.setImage.bind(this);
 	}
 
@@ -36,37 +29,28 @@ class Layout extends React.Component {
 
     render() {
 
-        return(
+        return (
 				<div>
 					<h2>manga</h2>
 
-						<div className="row">
-							<div className="col-md-3">
-								{this.state.mangas.map(function(m){
-									return (
-									<Link to={ Path.join(Url.mangaSpaUrl, m.name) } key={m.id}>
-										<div><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{m.name}</span></div>
-									</Link>
-									)
-								})}
-								<Add/>
-								<Route 
-									path={ Path.join(Url.mangaSpaUrl, ':name') }
-									render={(props) => <Browser 
-										currentPhoto={ this.state.filePathPhoto } 
-										setImage={ this.setImage } 
-										{...props} />} 
-								/>
-
-							</div>
-							
-							<div className="col-md-9">
-								<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
-							</div>
-
+					<div className="row">
+						<div className="col-md-3">
+							<MangaList/>
+							<Add/>
+							<Route 
+								path={ Path.join(Url.mangaSpaUrl, ':name') }
+								render={(props) => <Browser 
+									currentPhoto={ this.state.filePathPhoto } 
+									setImage={ this.setImage } 
+									{...props} />} 
+							/>
 
 						</div>
-
+						
+						<div className="col-md-9">
+							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+						</div>
+					</div>
 				</div>
         );
     }
