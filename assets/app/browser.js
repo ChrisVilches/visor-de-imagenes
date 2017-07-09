@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import Path from 'path';
 import Breadcrumb from './breadcrumb';
+import Url from './url';
 
 
 export default class Manga extends React.Component {
@@ -11,10 +12,9 @@ export default class Manga extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
+      mangaName: "",
       dirs: [],
       files: [],
-      currentDirBreadcrumb: "",
       currentDir: "",
       currentPhoto: ""
     };
@@ -45,15 +45,15 @@ export default class Manga extends React.Component {
 
     var previousCurrentDir = this.state.currentDir;
 
-    var currentDir = props.location.pathname;
-    currentDir = currentDir.substr(currentDir.search('manga/'));
+    var currentDir = Url.mangaUrlClean(props.location.pathname);
+
 
     if(previousCurrentDir == currentDir){
       return;
     }
 
     $.ajax({
-      url: window.location.protocol + "//" + Path.join(window.location.host, currentDir),
+      url: window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, currentDir),
       data: {
         name: true,
         onlymetadata: true
@@ -62,15 +62,14 @@ export default class Manga extends React.Component {
 
       var mangaName = data.manga.name;
 
-      if(mangaName != this.state.name){
-        this.props.setImage(Path.join('manga', mangaName, data.manga.lastPage));
+      if(mangaName != this.state.mangaName){
+        this.props.setImage(Path.join(mangaName, data.manga.lastPage));
       }
 
       this.setState({
         dirs: data.dirs,
         files: data.files,
-        name: mangaName,
-        currentDirBreadcrumb: currentDir,
+        mangaName: mangaName,
         currentDir: currentDir
       });
 
@@ -85,19 +84,19 @@ export default class Manga extends React.Component {
 		return(
       <div>
 
-        <h1>{ this.state.name }</h1>
+        <h1>{ this.state.mangaName }</h1>
 
           
 
         {/* Current directory breadcrumb */}
-        <Breadcrumb url={ this.state.currentDirBreadcrumb } currentDir={ this.state.currentDir.replace('manga/', '') } ></Breadcrumb>
+        <Breadcrumb url={ this.state.currentDir } currentDir={ this.state.currentDir } ></Breadcrumb>
 
         {/* Directories */}
 
           <div className="col-md-3">
           {this.state.dirs.map(function(m, i){
             return (
-            <Link to={ Path.join('/spa/', this.state.currentDir, m) } key={ i }>
+            <Link to={ Path.join(Url.mangaSpaUrl, this.state.currentDir, m) } key={ i }>
               <div className="dir-file"><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{ m }</span></div>
             </Link>
             )

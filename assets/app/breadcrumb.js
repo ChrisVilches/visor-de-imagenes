@@ -1,6 +1,7 @@
 import React from 'react';
 import Path from 'path';
 import { Link } from 'react-router-dom';
+import Url from './url';
 
 export default class Breadcrumb extends React.Component {
 
@@ -14,10 +15,11 @@ export default class Breadcrumb extends React.Component {
 
   update(props){
 
-    var dirs = props.url.split('/').filter(e => e.length > 0).splice(1);
+    // props.url ----> manga_name/path/to/dir (never a file)
+    var dirs = props.url.split('/').filter(e => e.length > 0);
 
     var bread = [];
-    var full = "";
+    var full = "/";
     for(var i=0; i<dirs.length; i++){
       full = Path.join(full, dirs[i]);
 
@@ -50,7 +52,7 @@ export default class Breadcrumb extends React.Component {
             return <span key={ i }><span className="breadcrumb-item">{ m.name }</span>/</span>;
           return(
             <span key={ i }>
-              <Link to={ Path.join('/spa/manga', m.acum) } className="breadcrumb-item">
+              <Link to={ Path.join(Url.mangaSpaUrl, m.acum) } className="breadcrumb-item">
                 <span>{ m.name }</span>
               </Link>/
             </span>

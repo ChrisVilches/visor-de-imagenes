@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import Breadcrumb from './breadcrumb';
 import Path from 'path';
+import Url from './url';
 
 export default class Photo extends React.Component {
 
@@ -9,9 +10,8 @@ export default class Photo extends React.Component {
 		super(props);
     this.state = {
       filePath: "",
-      currentDir: "",
       fileName: "",
-      currentDirGlobal: ""
+      currentDir: ""
     };
   }
 
@@ -20,36 +20,31 @@ export default class Photo extends React.Component {
     if(typeof props.filePath !== 'string') return;
     if(props.filePath.trim().length == 0) return;
 
-    var url = window.location.protocol + "//" + Path.join(window.location.host, props.filePath) + '?name';
-
-    var currentDirGlobal = props.location.pathname;
-    currentDirGlobal = currentDirGlobal.substr(currentDirGlobal.search('manga/'));
+    // eliminar estos asserts porque no son universales
+    console.assert(props.filePath.search('manga') == -1);
+    console.assert(props.filePath.search('spa') == -1);
 
     this.setState({
-      filePath: url,
-      currentDir: props.filePath.substr(0, props.filePath.lastIndexOf('/')) + '/',
-      currentDirGlobal: currentDirGlobal,
-      fileName: props.filePath.substr(props.filePath.lastIndexOf('/') + 1)
+      filePath: Url.removeLast(props.filePath),      
+      fileName: Url.getFileName(props.filePath),
+      currentDir: Url.mangaUrlClean(props.location.pathname)
     });
 
-    $("#manga-image").attr("src", url);
   }
 
 	render() {
 		return (
       <div>
         <Breadcrumb 
-        url={ this.state.currentDir } 
-        currentDir={ this.state.currentDirGlobal.replace('manga/', '') }
+        url={ this.state.filePath } 
+        currentDir={ this.state.currentDir }
         file={ this.state.fileName }></Breadcrumb>
 
-        <img id="manga-image" src={ this.state.filePath }></img>
+        <img id="manga-image" src={ 
+          window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' 
+        }></img>
 
       </div>
-    );
-
-
-    
+    );    
 	}
-
 }

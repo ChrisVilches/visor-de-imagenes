@@ -6,6 +6,8 @@ import $ from 'jquery';
 import Browser from './browser';
 import Add from './add';
 import Photo from './photo';
+import Url from './url';
+import Path from 'path';
 
 class Layout extends React.Component {
 
@@ -16,7 +18,7 @@ class Layout extends React.Component {
 			filePathPhoto: ""
 		};
 
-		$.ajax({ url: '/manga' })
+		$.ajax({ url: Url.mangaServiceUrl })
 		.done(function(data){
 			this.setState({ mangas: data });
 		}.bind(this))
@@ -42,14 +44,14 @@ class Layout extends React.Component {
 							<div className="col-md-3">
 								{this.state.mangas.map(function(m){
 									return (
-									<Link to={ "/spa/manga/" + m.name } key={m.id}>
+									<Link to={ Path.join(Url.mangaSpaUrl, m.name) } key={m.id}>
 										<div><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{m.name}</span></div>
 									</Link>
 									)
 								})}
 								<Add/>
 								<Route 
-									path="/spa/manga/:name" 
+									path={ Path.join(Url.mangaSpaUrl, ':name') }
 									render={(props) => <Browser 
 										currentPhoto={ this.state.filePathPhoto } 
 										setImage={ this.setImage } 
