@@ -69,40 +69,36 @@ export default class Browser extends React.Component {
     });
   }
 
-  
+
 
 	render() {
 		return(
       <div>
 
-        <h1>{ this.state.mangaName }</h1>          
+        <h1>{ this.state.mangaName }</h1>
 
         {/* Current directory breadcrumb */}
         <Breadcrumb path={ this.state.currentDir } currentDir={ this.state.currentDir } ></Breadcrumb>
 
         {/* Directories */}
-          <div className="col-md-3">
-          {this.state.dirs.map(function(m, i){
-            return (
-            <Link to={ Path.join(Url.mangaSpaUrl, this.state.currentDir, m) } key={ i }>
-              <div className="dir-file"><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{ m }</span></div>
-            </Link>
-            )
-          }.bind(this))}
+        {this.state.dirs.map(function(m, i){
+          return (
+          <Link to={ Path.join(Url.mangaSpaUrl, this.state.currentDir, m) } key={ i }>
+            <div className="browser-directory"><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{ m }</span></div>
+          </Link>
+          )
+        }.bind(this))}
 
         {/* Files */}
-          {this.state.files.map(function(m, i){
-            return (
-            <a href="javascript:;" key={ i } onClick={ () => this.props.setImage(Path.join(this.state.currentDir, m)) }>
-              <div className={ this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'dir-file current-file' : 'dir-file' }>
-                <i className="glyphicon glyphicon-file"></i>
-                <span className="folder-name">{ m }</span>
-              </div>
-            </a>
-            )
-          }.bind(this))}
-          </div>
-
+        {this.state.files.map(function(m, i){
+          return (
+          <a href="javascript:;" key={ i } onClick={ () => this.props.setImage(Path.join(this.state.currentDir, m)) }>
+            <div className={ "browser-file " + (this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'current-file' : '') }>
+              <span>{ m }</span>
+            </div>
+          </a>
+          )
+        }.bind(this))}
 
       </div>
 		);
@@ -113,5 +109,3 @@ Browser.propTypes = {
   currentPhoto: PropTypes.string.isRequired,
   setImage: PropTypes.func.isRequired
 };
-
-

@@ -5,6 +5,12 @@ import Url from './url';
 import PropTypes from 'prop-types';
 
 
+const separator = (
+  <span className="breadcrumb-separator">
+    <i className="glyphicon glyphicon-chevron-right"></i>
+  </span>
+);
+
 export default class Breadcrumb extends React.Component {
 
   constructor(props){
@@ -47,20 +53,21 @@ export default class Breadcrumb extends React.Component {
   }
 
   render(){
+
     return(
-      <div>
+      <div className="breadcrumb-container">
         {this.state.breads.map(function(m, i){
-          if(m.active)
-            return <span key={ i }><span className="breadcrumb-item">{ m.name }</span>/</span>;
           return(
             <span key={ i }>
-              <Link to={ Path.join(Url.mangaSpaUrl, m.acum) } className="breadcrumb-item">
-                <span>{ m.name }</span>
-              </Link>/
+              <Link to={ Path.join(Url.mangaSpaUrl, m.acum) }>
+                <span className={ "breadcrumb-item " + (m.active ? "breadcrumb-item-active" : "") }>{ m.name }</span>
+              </Link>
+              { i < this.state.breads.length - 1 && separator }
             </span>
           );
-        })}
-        <span className="file-name breadcrumb-item">
+        }.bind(this))}
+        <span className="breadcrumb-item">
+          { this.state.file && separator }
           { this.state.file }
         </span>
       </div>
@@ -73,4 +80,3 @@ Breadcrumb.propTypes = {
   currentDir: PropTypes.string.isRequired,
   file: PropTypes.string
 };
-

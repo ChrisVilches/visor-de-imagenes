@@ -1,5 +1,6 @@
 body {
 	background-color: black;
+	color: #898989;
 }
 
 a {
@@ -20,29 +21,23 @@ a:hover, a:active, a:focus, a:hover > div {
 	color: #cacaca;
 }
 
-.dir-file{
-	padding: 2px 1px;
+.browser-directory{
+	padding: 2px 4px;
 }
 
-.breadcrumb-item{
-	margin: 0 2px;
-	padding: 0 2px;
+.browser-file{
+	padding: 2px 4px;
 }
 
-.current-file{
+.browser-current-file{
 	background-color:#121212;
 }
 .image-show{
 	display: block;
 }
 
-.breadcrumb a{
-
+@media (min-width: 1200px) {
+  .container {
+    width: 1800px;
+  }
 }
-
-.file-name{
-	font-weight: bold;
-}
-
-
-

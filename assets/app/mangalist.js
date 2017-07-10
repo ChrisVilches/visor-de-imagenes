@@ -13,8 +13,8 @@ export default class MangaList extends React.Component {
     };
     $.ajax({ url: Url.mangaServiceUrl })
     .done(function(data){
-      this.setState({ 
-        mangas: data 
+      this.setState({
+        mangas: data
       });
     }.bind(this))
     .catch(function(err){
@@ -30,16 +30,12 @@ export default class MangaList extends React.Component {
         {this.state.mangas.map(function(m){
         return (
           <Link to={ Path.join(Url.mangaSpaUrl, m.name) } key={m.id}>
-            <div><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{m.name}</span></div>
+            <div className="browser-directory"><i className="glyphicon glyphicon-folder-open"></i> <span className="folder-name">{ m.name }</span></div>
           </Link>
         )
         })}
 
       </div>
-    );    
+    );
 	}
 }
-
-
-
-

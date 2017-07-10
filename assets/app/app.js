@@ -14,10 +14,10 @@ class Layout extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.state = {			
+		this.state = {
 			filePathPhoto: ""
 		};
-		
+
 		this.setImage = this.setImage.bind(this);
 	}
 
@@ -30,32 +30,33 @@ class Layout extends React.Component {
     render() {
 
         return (
-				<div>
-					<div className="row">
 
-						<div className="col-md-4">
+				<div className="row">
 
-							<h2>manga</h2>
+					<div className="col-md-3">
+						<div className="panel-body">
+
 							<MangaList/>
 							<Add/>
-							<Route 
+							<Route
 								path={ Path.join(Url.mangaSpaUrl, ':name') }
-								render={(props) => <Browser 
-								currentPhoto={ this.state.filePathPhoto } 
-								setImage={ this.setImage } 
-								{...props} />} 
+								render={(props) => <Browser
+								currentPhoto={ this.state.filePathPhoto }
+								setImage={ this.setImage }
+								{...props} />}
 							/>
-
-						</div>   
-
-						<div className="col-md-8">
-
-							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
-
 						</div>
-
 					</div>
+
+					<div className="col-md-9">
+
+						<div className="panel-body">
+							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+						</div>
+					</div>
+
 				</div>
+
         );
     }
 }
