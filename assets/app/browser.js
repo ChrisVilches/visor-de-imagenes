@@ -93,7 +93,7 @@ export default class Browser extends React.Component {
         {this.state.files.map(function(m, i){
           return (
           <a href="javascript:;" key={ i } onClick={ () => this.props.setImage(Path.join(this.state.currentDir, m)) }>
-            <div className={ "browser-file " + (this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'current-file' : '') }>
+            <div className={ "browser-file " + (this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'browser-current-file' : '') }>
               <span>{ m }</span>
             </div>
           </a>
