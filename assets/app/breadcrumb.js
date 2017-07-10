@@ -58,7 +58,7 @@ export default class Breadcrumb extends React.Component {
       <div className="breadcrumb-container">
         {this.state.breads.map(function(m, i){
           return(
-            <span key={ i }>
+            <span key={ i } className="breadcrumb-block">
               <Link to={ Path.join(Url.mangaSpaUrl, m.acum) }>
                 <span className={ "breadcrumb-item " + (m.active ? "breadcrumb-item-active" : "") }>{ m.name }</span>
               </Link>

@@ -4,13 +4,13 @@ body {
 }
 
 a {
-	color: #cacaca;
+	color: @link;
 }
 
 a:hover, a:active, a:focus, a:hover > div {
-	color: #fafafa;
+	color: @bright-text;
 	text-decoration: none;
-	background-color: #454449;
+	background-color: @highlight;
 }
 
 .folder-name {
@@ -18,7 +18,7 @@ a:hover, a:active, a:focus, a:hover > div {
 }
 
 .glyphicon-folder-open{
-	color: #cacaca;
+	color: @link;
 }
 
 .browser-directory{
@@ -30,7 +30,7 @@ a:hover, a:active, a:focus, a:hover > div {
 }
 
 .browser-current-file{
-	background-color:#454449;
+	background-color: @highlight;
 }
 .image-show{
 	display: block;
@@ -81,7 +81,7 @@ a:hover, a:active, a:focus, a:hover > div {
 div::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #454449; /* scrollbar background */
+	background-color: @highlight; /* scrollbar background */
 }
 
 div::-webkit-scrollbar
