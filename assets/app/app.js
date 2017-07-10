@@ -27,9 +27,13 @@ class Layout extends React.Component {
 		});
 	}
 
-    render() {
+	setTitle(mangaName, fileName){
+		document.title = mangaName + " | " + fileName;
+	}
 
-        return (
+  render() {
+
+      return (
 
 				<div className="row">
 
@@ -43,6 +47,7 @@ class Layout extends React.Component {
 								render={(props) => <Browser
 								currentPhoto={ this.state.filePathPhoto }
 								setImage={ this.setImage }
+								setTitle={ this.setTitle }
 								{...props} />}
 							/>
 						</div>

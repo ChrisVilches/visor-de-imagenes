@@ -63,6 +63,7 @@ export default class Browser extends React.Component {
         if(mangaName != prevMangaName){
           // Show last image
           this.props.setImage(Path.join('/', mangaName, data.manga.lastPage));
+          this.props.setTitle(mangaName, Url.getFileName(data.manga.lastPage));
 
           // Go to last image directory
           this.props.history.push(Path.join(Url.mangaSpaUrl, mangaName, Url.removeLast(data.manga.lastPage)));
@@ -95,7 +96,10 @@ export default class Browser extends React.Component {
         {/* Files */}
         {this.state.files.map(function(m, i){
           return (
-          <a href="javascript:;" key={ i } onClick={ () => this.props.setImage(Path.join(this.state.currentDir, m)) }>
+          <a href="javascript:;" key={ i } onClick={ () => {
+            this.props.setImage(Path.join(this.state.currentDir, m));
+            this.props.setTitle(this.state.mangaName, m);
+          } }>
             <div className={ "browser-file " + (this.state.currentPhoto == Path.join(this.state.currentDir, m) ? 'browser-current-file' : '') }>
               <span>{ m }</span>
             </div>
@@ -110,5 +114,6 @@ export default class Browser extends React.Component {
 
 Browser.propTypes = {
   currentPhoto: PropTypes.string.isRequired,
-  setImage: PropTypes.func.isRequired
+  setImage: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 };
