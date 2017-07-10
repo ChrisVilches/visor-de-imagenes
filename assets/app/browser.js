@@ -51,25 +51,28 @@ export default class Browser extends React.Component {
     }).done(function(data){
 
       var mangaName = data.manga.name;
-
-      if(mangaName != this.state.mangaName){
-        // Show last image
-        this.props.setImage(Path.join('/', mangaName, data.manga.lastPage));
-      }
+      var prevMangaName = this.state.mangaName;
 
       this.setState({
         dirs: data.dirs,
         files: data.files,
         mangaName: mangaName,
         currentDir: currentDir
+      }, function(){
+
+        if(mangaName != prevMangaName){
+          // Show last image
+          this.props.setImage(Path.join('/', mangaName, data.manga.lastPage));
+
+          // Go to last image directory
+          this.props.history.push(Path.join(Url.mangaSpaUrl, mangaName, Url.removeLast(data.manga.lastPage)));
+        }
       });
 
     }.bind(this)).catch(function(err){
       console.log(err);
     });
   }
-
-
 
 	render() {
 		return(
