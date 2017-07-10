@@ -18,8 +18,7 @@
     "sails": "^1.0.0-36",
     "sails-hook-grunt": "^2.0.0",
     "sails-hook-orm": "^2.0.0-16",
-    "sails-hook-sockets": "^1.4.3",
-    "zooming": "^1.2.2"
+    "sails-hook-sockets": "^1.4.3"
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",

@@ -35,9 +35,8 @@ class Layout extends React.Component {
 
       return (
 
-				<div className="row">
-
-					<div className="col-md-3">
+	    <div className="row app-container">
+	        <div className="col-sm-5" id="left">
 						<div className="panel-body">
 
 							<MangaList/>
@@ -50,18 +49,18 @@ class Layout extends React.Component {
 								setTitle={ this.setTitle }
 								{...props} />}
 							/>
+
+
 						</div>
-					</div>
-
-					<div className="col-md-9">
-
+	        </div>
+	        <div className="col-sm-7" id="right">
 						<div className="panel-body">
+
 							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+
 						</div>
-					</div>
-
-				</div>
-
+	        </div>
+	    </div>
         );
     }
 }

@@ -4,7 +4,6 @@ import Breadcrumb from './breadcrumb';
 import Path from 'path';
 import Url from './url';
 import PropTypes from 'prop-types';
-import Zooming from 'zooming';
 
 export default class Photo extends React.Component {
 
@@ -14,17 +13,12 @@ export default class Photo extends React.Component {
       filePath: "",
       fileName: "",
       currentDir: ""
-    };   
+    };
 
   }
 
   componentDidMount(){
-    const zooming = new Zooming({
-      bgColor: '#000'
-    });
-
-    const img = document.getElementById('manga-image');
-    zooming.listen(img);
+    wheelzoom(document.getElementById('manga-image'));
   }
 
   componentWillReceiveProps(props){
@@ -33,7 +27,7 @@ export default class Photo extends React.Component {
     if(props.filePath.trim().length == 0) return;
 
     this.setState({
-      filePath: Url.removeLast(props.filePath),      
+      filePath: Url.removeLast(props.filePath),
       fileName: Url.getFileName(props.filePath),
       currentDir: Url.mangaUrlClean(props.location.pathname)
     });
@@ -53,20 +47,20 @@ export default class Photo extends React.Component {
 
 		return (
       <div>
-        <Breadcrumb 
-        path={ this.state.filePath } 
+        <Breadcrumb
+        path={ this.state.filePath }
         currentDir={ this.state.currentDir }
         file={ this.state.fileName }></Breadcrumb>
 
-        <img 
-        id="manga-image" 
+        <img
+        id="manga-image"
         src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' }
         style={ style }
         className="img-responsive"
         ></img>
 
       </div>
-    );    
+    );
 	}
 }
 
@@ -74,7 +68,3 @@ export default class Photo extends React.Component {
 Photo.propTypes = {
   filePath: PropTypes.string.isRequired
 };
-
-
-
-
