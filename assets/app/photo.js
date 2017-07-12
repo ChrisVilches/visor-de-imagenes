@@ -35,6 +35,12 @@ export default class Photo extends React.Component {
   }
 
 
+  encode(url){
+
+    return encodeURI(url).replace(/#/g, '%23');
+
+  }
+
 
 	render() {
 
@@ -54,7 +60,7 @@ export default class Photo extends React.Component {
 
         <img
         id="manga-image"
-        src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.state.filePath, this.state.fileName) + '?name' }
+        src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.encode(this.state.filePath), this.encode(this.state.fileName)) + '?name' }
         style={ style }
         className="img-responsive"
         ></img>
