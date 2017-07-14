@@ -50,6 +50,11 @@ module.exports.routes = {
     action: 'redirect'
   },
 
+  'GET /close': {
+    controller: 'MainController',
+    action: 'close'
+  },
+
   'GET r|^\/manga\/([0-9a-zA-Z\%]+)(\/.*)?$|id,path': {
     controller: 'MangaController',
     action: 'files'

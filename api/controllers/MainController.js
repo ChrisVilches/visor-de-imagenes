@@ -10,6 +10,21 @@ module.exports = {
 
 		res.redirect('/spa');
 
+	},
+
+
+	close: function(req, res){
+
+
+		sails.log('Closing...');
+
+		setTimeout(process.exit, 1000);
+
+		return res.json({
+			message: 'Closed.'
+		});
+
+
 	}
 
 };

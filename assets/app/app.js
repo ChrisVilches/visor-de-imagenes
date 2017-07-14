@@ -31,6 +31,15 @@ class Layout extends React.Component {
 		document.title = mangaName + " | " + fileName;
 	}
 
+	closeApp(){
+		$.ajax({
+			url: '/close',
+			success: function(res){
+				$("#app").html("<p>Server is offline.</p>");
+			}
+		});
+	}
+
   render() {
 
       return (
@@ -38,6 +47,11 @@ class Layout extends React.Component {
 	    <div className="row app-container">
 	        <div className="col-sm-5" id="left">
 						<div className="panel-body">
+
+
+							<a href="javascript:;" onClick={ this.closeApp }>
+								<div className="browser-directory"><i className="glyphicon glyphicon-remove"></i> <span className="folder-name">Close</span></div>
+							</a>
 
 							<MangaList/>
 							<Add/>

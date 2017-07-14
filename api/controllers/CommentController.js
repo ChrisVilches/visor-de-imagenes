@@ -59,37 +59,5 @@ module.exports = {
       return res.ok();
     });
 
-
-
-
-/*
-
-    Manga.findOne(req.param('manga')).exec(function(err, record){
-
-      if(err) return res.serverError(err);
-
-      if(!record)
-        return res.badRequest();
-
-      var fullPath = path.join(record.path, req.param('path'), req.param('fileName'));
-
-      if (!fs.existsSync(fullPath)) {
-        return res.badRequest('Path ' + fullPath + ' doesn\'t exist');
-      }
-
-      console.log("param:")
-      console.log(req.param)
-
-      Comment.create(req.allParams(), function(err, record){
-        if(err) return res.serverError(err);
-        return res.ok();
-      });
-
-
-
-    });*/
-
-
-
 	}
 };
