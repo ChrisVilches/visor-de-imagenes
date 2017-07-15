@@ -40,6 +40,10 @@ class Layout extends React.Component {
 		});
 	}
 
+	updateMangaList(){
+		this.mangaList.fetchMangas();
+	}
+
   render() {
 
       return (
@@ -48,13 +52,12 @@ class Layout extends React.Component {
 	        <div className="col-sm-5" id="left">
 						<div className="panel-body">
 
-
 							<a href="javascript:;" onClick={ this.closeApp }>
 								<div className="browser-directory"><i className="glyphicon glyphicon-remove"></i> <span className="folder-name">Close</span></div>
 							</a>
 
-							<MangaList/>
-							<Add/>
+							<MangaList ref={ m => { this.mangaList = m; } }/>
+							<Add updateMangaList={ this.updateMangaList.bind(this) }/>
 							<Route
 								path={ Path.join(Url.mangaSpaUrl, ':name') }
 								render={(props) => <Browser

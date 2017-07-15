@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import Url from './url';
 
 export default class Add extends React.Component {
 
@@ -10,50 +11,58 @@ export default class Add extends React.Component {
   submit(e){
     e.preventDefault();
     var name = $('#add-form-name').val().trim();
-    var folder = $('#add-form-folder').val().trim();
+    var path = $('#add-form-path').val().trim();
 
     if(name.length == 0){
-      console.error("Name missing");
+      $('#add-form-error-msg').html('Name missing');
       return;
     }
 
-    if(folder.length == 0){
-      console.error("Folder missing");
+    if(path.length == 0){
+      $('#add-form-error-msg').html('Path missing');
       return;
     }
-    console.log("Adding:");
-    console.log(name);
-    console.log(folder);
+
+    $.ajax({
+
+      url: Url.mangaServiceUrl,
+      method: 'POST',
+      data: {
+        name: name,
+        path: path
+      },
+      success: function(data){
+        this.cancel();
+        this.props.updateMangaList();
+
+      }.bind(this),
+      error: function(err){
+
+        var error = 'Unknown error';
+        if(typeof err.responseJSON === 'string'){
+          error = err.responseJSON;
+        } else if(typeof err.responseJSON.message === 'string') {
+          error = err.responseJSON.message;
+        }
+                
+        $('#add-form-error-msg').html(error);
+      }
+    });
   }
 
   openForm(e){
     e.preventDefault();
     $('#add-form').show();
     $('#add-form-open-btn').hide();
-
-    /* Workaround to set all these attributes (you can't do this directly using JSX) */
-
-    var attrs = [
-      'webkitdirectory',
-      'mozdirectory',
-      'msdirectory',
-      'odirectory',
-      'directory',
-      'multiple'
-    ];
-
-    for(var i in attrs){
-      $('#add-form-folder').attr(attrs[i], '');
-    }
-
-
   }
 
-  cancel(e){
-    e.preventDefault();
+  cancel(e = null){
+    if(e)
+      e.preventDefault();
     $('#add-form')[0].reset();
     $('#add-form').hide();
     $('#add-form-open-btn').show();
+    $('#add-form-error-msg').html('');
   }
 
 	render() {
@@ -71,10 +80,12 @@ export default class Add extends React.Component {
           </div>
 
           <div className="form-group">
-            <input type="file" id="add-form-folder"/>
+            <input className="form-control" type="text" placeholder="Path" id="add-form-path"/>
           </div>
 
-          <button className="btn btn-primary" onClick={ this.submit }>Ok</button> <a href="javascript:;" onClick={ this.cancel }>Cancel</a>
+          <div className="alert alert-danger" id="add-form-error-msg"></div>
+
+          <button className="btn btn-primary" onClick={ this.submit.bind(this) }>Ok</button> <a href="javascript:;" onClick={ this.cancel }>Cancel</a>
         </form>
 
       </div>

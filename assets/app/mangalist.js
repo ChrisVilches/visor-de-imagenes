@@ -11,6 +11,10 @@ export default class MangaList extends React.Component {
     this.state = {
       mangas: []
     };
+    this.fetchMangas();
+  }
+
+  fetchMangas(){
     $.ajax({ url: Url.mangaServiceUrl })
     .done(function(data){
       this.setState({
