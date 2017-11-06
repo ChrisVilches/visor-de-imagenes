@@ -44,7 +44,7 @@ export default class Add extends React.Component {
         } else if(typeof err.responseJSON.message === 'string') {
           error = err.responseJSON.message;
         }
-                
+
         $('#add-form-error-msg').html(error);
       }
     });
