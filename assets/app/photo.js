@@ -30,7 +30,7 @@ export default class Photo extends React.Component {
       filePath: Url.removeLast(props.filePath),
       fileName: Url.getFileName(props.filePath),
       currentDir: Url.mangaUrlClean(props.location.pathname)
-    });
+    }, this.props.scrollTop);
 
   }
 
@@ -72,5 +72,6 @@ export default class Photo extends React.Component {
 
 
 Photo.propTypes = {
-  filePath: PropTypes.string.isRequired
+  filePath: PropTypes.string.isRequired,
+  scrollTop: PropTypes.func.isRequired
 };

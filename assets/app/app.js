@@ -44,6 +44,11 @@ class Layout extends React.Component {
 		this.mangaList.fetchMangas();
 	}
 
+	scrollTop(){
+		$('#right').animate({ scrollTop: 0 }, 0);
+		console.log("scroll top")
+	}
+
   render() {
 
       return (
@@ -73,7 +78,7 @@ class Layout extends React.Component {
 	        <div className="col-sm-7" id="right">
 						<div className="panel-body">
 
-							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } {...props}/> } />
+							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } scrollTop={ this.scrollTop } {...props}/> } />
 
 						</div>
 	        </div>
