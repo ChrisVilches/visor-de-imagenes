@@ -26,11 +26,20 @@ export default class Photo extends React.Component {
     if(typeof props.filePath !== 'string') return;
     if(props.filePath.trim().length == 0) return;
 
+    let oldFile = this.state.filePath + "/" + this.state.fileName;
+    let newFile = props.filePath;
+
+    let differentImage = (oldFile != newFile);
+
     this.setState({
       filePath: Url.removeLast(props.filePath),
       fileName: Url.getFileName(props.filePath),
       currentDir: Url.mangaUrlClean(props.location.pathname)
-    }, this.props.imageSourceChanged);
+    }, () => {
+      if(differentImage){
+        this.props.imageSourceChanged();
+      }
+    });
 
   }
 
@@ -62,7 +71,7 @@ export default class Photo extends React.Component {
         id="manga-image"
         src={ window.location.protocol + "//" + Path.join(Url.host, Url.mangaServiceUrl, this.encode(this.state.filePath), this.encode(this.state.fileName)) + '?name' }
         style={ style }
-        className="img-responsive"
+        className="img-responsive main-photo"
         ></img>
 
       </div>

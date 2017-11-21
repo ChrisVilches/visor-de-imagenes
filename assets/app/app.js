@@ -74,6 +74,7 @@ class Layout extends React.Component {
 	}
 
 	imageSourceChanged(){
+		console.log("Scroll top");
 		$('#right').animate({ scrollTop: 0 }, 0);
 	}
 
