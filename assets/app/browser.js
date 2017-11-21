@@ -30,6 +30,48 @@ export default class Browser extends React.Component {
   }
 
 
+  next(){
+    let next = this.getPrevNextFileNames(this.state.currentPhoto).next;
+    if(next == null) return;
+
+    this.props.setImage(Path.join(this.state.currentDir, next));
+    this.props.setTitle(this.state.mangaName, next);
+  }
+
+  prev(){
+    let prev = this.getPrevNextFileNames(this.state.currentPhoto).prev;
+    if(prev == null) return;
+
+    this.props.setImage(Path.join(this.state.currentDir, prev));
+    this.props.setTitle(this.state.mangaName, prev);
+  }
+
+
+
+  getPrevNextFileNames(fileName){
+    let result = {
+      prev: null,
+      next: null
+    };
+
+    let index = -1;
+
+    for(let i=0; i<this.state.files.length; i++){
+      if(fileName.endsWith("/" + this.state.files[i])){
+        index = i;
+        break;
+      }
+    }
+
+    if(index == -1) return result;
+
+    try{ result.prev = this.state.files[index-1]; } catch(e){ }
+    try{ result.next = this.state.files[index+1]; } catch(e){ }
+
+    return result;
+  }
+
+
   update(props){
 
 

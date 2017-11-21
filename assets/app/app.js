@@ -15,10 +15,39 @@ class Layout extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			filePathPhoto: ""
+			filePathPhoto: "",
+			arrowKeysActive: true
 		};
 
 		this.setImage = this.setImage.bind(this);
+
+		this.captureLeftRightKeys();
+	}
+
+	captureLeftRightKeys(){
+
+		$(document).keyup(function(e){
+
+			if(!this.state.arrowKeysActive) return;
+			if(typeof this.photo === 'undefined' || this.photo == null) return;
+
+			switch(e.which) {
+				case 37: // left
+				this.photo.prev();
+				break;
+				case 39: // right
+				this.photo.next();
+				break;
+				default: return;
+			}
+			e.preventDefault();
+			}.bind(this));
+	}
+
+	arrowKeysActive(b){
+		this.setState({
+			arrowKeysActive: b
+		});
 	}
 
 	setImage(filePath){
@@ -44,9 +73,8 @@ class Layout extends React.Component {
 		this.mangaList.fetchMangas();
 	}
 
-	scrollTop(){
+	imageSourceChanged(){
 		$('#right').animate({ scrollTop: 0 }, 0);
-		console.log("scroll top")
 	}
 
   render() {
@@ -54,7 +82,7 @@ class Layout extends React.Component {
       return (
 
 	    <div className="row app-container">
-	        <div className="col-sm-5" id="left">
+	        <div className="col-sm-5" id="left" onClick={ () => { this.arrowKeysActive(false); } }>
 						<div className="panel-body">
 
 							<a href="javascript:;" onClick={ this.closeApp }>
@@ -66,6 +94,7 @@ class Layout extends React.Component {
 							<Route
 								path={ Path.join(Url.mangaSpaUrl, ':name') }
 								render={(props) => <Browser
+								ref={ ref => (this.photo = ref) }
 								currentPhoto={ this.state.filePathPhoto }
 								setImage={ this.setImage }
 								setTitle={ this.setTitle }
@@ -75,10 +104,15 @@ class Layout extends React.Component {
 
 						</div>
 	        </div>
-	        <div className="col-sm-7" id="right">
+	        <div className="col-sm-7" id="right" onClick={ () => { this.arrowKeysActive(true); } }>
 						<div className="panel-body">
 
-							<Route render={(props) => <Photo filePath={ this.state.filePathPhoto } scrollTop={ this.scrollTop } {...props}/> } />
+							<Route
+							render={(props) =>
+								<Photo
+								filePath={ this.state.filePathPhoto }
+								imageSourceChanged={ this.imageSourceChanged } {...props}
+								/> } />
 
 						</div>
 	        </div>
@@ -86,8 +120,6 @@ class Layout extends React.Component {
         );
     }
 }
-
-
 
 
 const app = document.getElementById("app");
