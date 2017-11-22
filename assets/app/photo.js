@@ -19,6 +19,10 @@ export default class Photo extends React.Component {
 
   componentDidMount(){
     wheelzoom(document.getElementById('manga-image'));
+
+    $('#manga-image').on('load', function () {
+      $("#manga-image").fadeIn();
+    });
   }
 
   componentWillReceiveProps(props){
@@ -37,6 +41,7 @@ export default class Photo extends React.Component {
       currentDir: Url.mangaUrlClean(props.location.pathname)
     }, () => {
       if(differentImage){
+        $("#manga-image").hide();
         this.props.imageSourceChanged();
       }
     });
